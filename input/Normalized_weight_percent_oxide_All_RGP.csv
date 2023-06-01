@@ -1,0 +1,12 @@
+,Mg_nor,Al_nor,Si_nor,P_nor
+Centroid,17,22,31,29
+Mg-Corner,46,15,21,17
+Al-Corner,10,56,18,15
+Si-Corner,10,13,63,15
+P-Corner,9,12,16,64
+Mg-Axial,29,19,28,24
+Al-Axial,15,39,23,23
+Si-Axial,14,18,45,22
+P-Axial,12,17,20,50
+PO4Free,23,31,46,0
+Misty-phill,15.48084025,38.31479698,31.24287269,14.96149008

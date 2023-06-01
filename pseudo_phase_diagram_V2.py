@@ -14,14 +14,15 @@ import ternary
 
 print("Version", ternary.__version__)
 #%% Prep some data
-pc_mineral = pd.read_csv('input/Weight_percent_oxides_in_PC.csv')
+pc_mineral = pd.read_csv('input/Normalized_weight_percent_oxide_All_RGP.csv') #This file is already has 
+#normalized weight precent of oxides
 
 # Normalize data
 pc_mineral['total']=pc_mineral.iloc[:,1:5].sum(axis = 1)
-pc_mineral['Mg_nor'] = pc_mineral['MgO'] /pc_mineral['total'] * 100
-pc_mineral['Al_nor'] = pc_mineral['Al2O3'] /pc_mineral['total'] * 100
-pc_mineral['Si_nor'] = pc_mineral['SiO2'] /pc_mineral['total'] * 100
-pc_mineral['P_nor'] = pc_mineral['P2O5'] /pc_mineral['total'] * 100
+# pc_mineral['Mg_nor'] = pc_mineral['MgO'] /pc_mineral['total'] * 100
+# pc_mineral['Al_nor'] = pc_mineral['Al2O3'] /pc_mineral['total'] * 100
+# pc_mineral['Si_nor'] = pc_mineral['SiO2'] /pc_mineral['total'] * 100
+# pc_mineral['P_nor'] = pc_mineral['P2O5'] /pc_mineral['total'] * 100
 
 
 #%% plot setup Mg Al ternary
@@ -53,12 +54,33 @@ tax.bottom_axis_label("$SiO_2 + P_2O_5$ (wt. %)", fontsize=fontsize, offset=offs
 df = pd.DataFrame({'P_Si' : (pc_mineral['Si_nor'] + pc_mineral['P_nor'])}) #seting X value
 df['Mg_nor'] = pc_mineral['Mg_nor'] # seting "Y" value
 df['Al_nor'] = pc_mineral['Al_nor'] # seting "Z" value
-df_Al_Mg = df.iloc[[0,1,2,5,6],:]
-df_Si_P = df.iloc[[3,4,7,8],:]
-points_in = df_Al_Mg.values.tolist()
-points_out = df_Si_P.values.tolist()
-tax.scatter(points_in, marker='o', color='green')
-tax.scatter(points_out, marker='o', color='blue')
+
+#split points into groups
+df_Al =df.iloc[[2,6],:]
+df_Mg =df.iloc[[1,5],:]
+df_Si =df.iloc[[3,7],:]
+df_P =df.iloc[[4,8],:]
+df_noP =df.iloc[[9],:]
+df_other =df.iloc[[0,10],:]
+pnt_Al = df_Al.values.tolist()
+pnt_Mg = df_Mg.values.tolist()
+pnt_Si = df_Si.values.tolist()
+pnt_P = df_P.values.tolist()
+pnt_noP = df_noP.values.tolist()
+pnt_other = df_other.values.tolist()
+
+# df_Al_Mg = df.iloc[[0,1,2,5,6],:]
+# df_Si_P = df.iloc[[3,4,7,8],:]
+# points_all = df.values.tolist()
+# points_in = df_Al_Mg.values.tolist() #split points into groups
+# points_out = df_Si_P.values.tolist()
+
+tax.scatter(pnt_Al, marker='o', color='blue')
+tax.scatter(pnt_Mg, marker='o', color='green')
+tax.scatter(pnt_Si, marker='o', color='gold')
+tax.scatter(pnt_P, marker='o', color='darkred')
+tax.scatter(pnt_noP, marker='o', color='black')
+tax.scatter(pnt_other, marker='o', color='gray')
 # tax.legend()
 
 # Set ticks
@@ -104,12 +126,29 @@ tax.bottom_axis_label("$MgO + Al_2O_3$ (wt. %)", fontsize=fontsize, offset=offse
 df = pd.DataFrame({'Mg_Al' : (pc_mineral['Mg_nor'] + pc_mineral['Al_nor'])}) #seting X value
 df['Si_nor'] = pc_mineral['Si_nor'] # seting "Y" value
 df['P_nor'] = pc_mineral['P_nor'] # seting "Z" value
-df_Al_Mg = df.iloc[[1,2,5,6],:]
-df_Si_P = df.iloc[[0,3,4,7,8],:]
-points_in = df_Al_Mg.values.tolist()
-points_out = df_Si_P.values.tolist()
-tax.scatter(points_in, marker='o', color='green')
-tax.scatter(points_out, marker='o', color='blue')
+
+#split points into groups
+df_Al =df.iloc[[2,6],:]
+df_Mg =df.iloc[[1,5],:]
+df_Si =df.iloc[[3,7],:]
+df_P =df.iloc[[4,8],:]
+df_noP =df.iloc[[9],:]
+df_other =df.iloc[[0,10],:]
+# df_other =df.iloc[[0,9,10],:]
+pnt_Al = df_Al.values.tolist()
+pnt_Mg = df_Mg.values.tolist()
+pnt_Si = df_Si.values.tolist()
+pnt_P = df_P.values.tolist()
+pnt_noP = df_noP.values.tolist()
+pnt_other = df_other.values.tolist()
+
+tax.scatter(pnt_Al, marker='o', color='blue')
+tax.scatter(pnt_Mg, marker='o', color='green')
+tax.scatter(pnt_Si, marker='o', color='gold')
+tax.scatter(pnt_P, marker='o', color='darkred')
+tax.scatter(pnt_noP, marker='o', color='black')
+tax.scatter(pnt_other, marker='o', color='gray')
+# tax.scatter([[54,46,0]], marker='o', color='red')
 # tax.legend()
 
 # Set ticks
@@ -123,4 +162,4 @@ tax.clear_matplotlib_ticks()
 tax.get_axes().axis('off')
 svg_name_path = 'output/P_Si_ternary.svg'
 #Uncoment to save
-tax.savefig(svg_name_path, transparent=False, bbox_inches="tight")
+# tax.savefig(svg_name_path, transparent=False, bbox_inches="tight")
